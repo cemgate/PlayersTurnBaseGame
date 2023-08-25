@@ -9,6 +9,40 @@
 #include "Swordsman.h"
 #include "Worker.h"
 
+struct Node
+{
+	int x, y;
+	int g, h;
+
+
+	Node(int _x, int _y, int _g, int _h) : x(_x), y(_y), g(_g), h(_h) {}
+
+	int f() const {
+		return g + h;
+	}
+
+	bool operator>(const Node& other) const {
+		return f() > other.f();
+	}
+
+};
+
+struct PairHash {
+	template <typename T1, typename T2>
+	std::size_t operator () (const std::pair<T1, T2>& p) const {
+		auto h1 = std::hash<T1>{}(p.first);
+		auto h2 = std::hash<T2>{}(p.second);
+		return h1 ^ (h2 << 1);
+	}
+};
+
+struct PairEqual {
+	template <typename T1, typename T2>
+	bool operator () (const std::pair<T1, T2>& lhs, const std::pair<T1, T2>& rhs) const {
+		return lhs.first == rhs.first && lhs.second == rhs.second;
+	}
+};
+
 /**
  * @brief Class representing the game.
  */
@@ -25,10 +59,15 @@ public:
 	 */
 	Base enemyBase;
 
+	std::vector<std::pair<int, int>> mines;
+
+	bool isWorkerHere = false;
 	/**
 	 * @brief Game map in the form of a two-dimensional vector.
 	 */
 	std::vector<std::vector<int>> map;
+
+	std::unordered_multimap<std::pair<int, int>, int,  PairHash, PairEqual> mapOfEnemiesEntities;
 
 	/**
 	 * @brief Hash map storing player's entities by ID.
@@ -194,7 +233,7 @@ public:
      *
      * @note The criteria for validity and accessibility may vary depending on the application.
      */
-	bool isMapPlaceValid(int posX, int posY);
+	bool isMapPlaceSolid(int posX, int posY);
 
 	/**
 	 * @brief Builds a random entity based on predefined probabilities.
@@ -327,22 +366,4 @@ private:
 		{'C', [] { return new Catapult; }},
 		{'W', [] { return new Worker; }},
 	};
-};
-
-struct Node 
-{
-	int x, y;
-	int g, h;
-
-
-	Node(int _x, int _y, int _g, int _h) : x(_x), y(_y), g(_g), h(_h) {}
-
-	int f() const {
-		return g + h;
-	}
-
-	bool operator>(const Node& other) const {
-		return f() > other.f();
-	}
-
 };
