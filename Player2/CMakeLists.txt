@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(Player)
 
-add_executable(Player2 main.cpp
+add_executable(Player1 main.cpp
 Archer.cpp
 Archer.h
 Base.cpp
