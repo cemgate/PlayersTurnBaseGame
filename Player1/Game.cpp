@@ -18,7 +18,7 @@ void Game::loadMap()
 
 	while (std::getline(inputFile, line))
 	{
-                line.pop_back();
+
 		this->map.push_back({}); // Add an empty vector to our vector of vectors
 
 		for (char c : line)
@@ -539,7 +539,7 @@ void Game::attackWithAllEntity()
 	{
 		int attackRange = unit.second->getAttackRange();
 		bool continueToNextUnit = false;
-		std::cout << "\n";
+		
 		for (int i = -1 * attackRange; i <= attackRange; i++)
 		{
 			for (int j = std::abs(i) - attackRange; j <= std::abs(std::abs(i) - attackRange); j++)
