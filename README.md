@@ -1,5 +1,5 @@
 # PlayersTurnBaseGame
-
+DO TESTOWANIA Z WLASNYM MEDIATOREM
 Instrukcja jak zbudować:
 
 1. Nalezy wejsc do folderu Player1 i wpisac komende ``` mdkir build && cd build ```
